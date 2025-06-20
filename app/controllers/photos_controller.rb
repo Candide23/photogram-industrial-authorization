@@ -10,6 +10,7 @@ class PhotosController < ApplicationController
 
   # GET /photos/1 or /photos/1.json
   def show
+    authorize @photo
   end
 
   # GET /photos/new
@@ -76,11 +77,11 @@ def destroy
       end
     end
 
-    def ensure_user_is_authorized
-      if !PhotoPolicy.new(current_user, @photo).show?
-       raise Pundit::NotAuthorizedError, "not allowed"
-      end
-    end
+   # def ensure_user_is_authorized
+     # if !PhotoPolicy.new(current_user, @photo).show?
+     #  raise Pundit::NotAuthorizedError, "not allowed"
+      #end
+   # end
 
     # Only allow a list of trusted parameters through.
     def photo_params

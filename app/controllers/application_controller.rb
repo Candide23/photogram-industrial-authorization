@@ -1,10 +1,10 @@
 class ApplicationController < ActionController::Base
     # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
     
-    include Pundit::Authorization
+  include Pundit::Authorization
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
-    allow_browser versions: :modern
+  allow_browser versions: :modern
 
   before_action :authenticate_user!
   before_action :set_user_search, if: -> { current_user.present? }
