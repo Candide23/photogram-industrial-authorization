@@ -52,16 +52,11 @@ class PhotosController < ApplicationController
   end
 
   # DELETE /photos/1 or /photos/1.json
-def destroy
-    if current_user == @photo.owner
-      @photo.destroy
-
-      respond_to do |format|
-        format.html { redirect_back fallback_location: root_url, notice: "Photo was successfully destroyed." }
-        format.json { head :no_content }
-      end
-    else
-      redirect_back(fallback_location: root_url, notice: "Nice try, but that is not your photo.")
+  def destroy
+    @photo.destroy
+    respond_to do |format|
+      format.html { redirect_back fallback_location: root_url, notice: "Photo was successfully destroyed." }
+      format.json { head :no_content }
     end
   end
 
@@ -73,15 +68,16 @@ def destroy
 
     def ensure_current_user_is_owner
       if current_user != @photo.owner
-        redirect_back fallback_location: root_url, alert: "You're not authorized for that."
+        redirect_back fallback_location: root_url, alert: "You're not authorized for that. From Photos Controller."
       end
     end
 
-   # def ensure_user_is_authorized
-     # if !PhotoPolicy.new(current_user, @photo).show?
-     #  raise Pundit::NotAuthorizedError, "not allowed"
-      #end
-   # end
+    # def ensure_user_is_authorized
+    #   if !PhotoPolicy.new(current_user, @photo).show?
+    #     # redirect_back fallback_location: root_url
+    #     raise Pundit::NotAuthorizedError, "not allowed"
+    #   end
+    # end
 
     # Only allow a list of trusted parameters through.
     def photo_params
