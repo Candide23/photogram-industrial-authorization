@@ -5,16 +5,18 @@
         <h2 class="h5 m-0 p-0 d-flex align-items-center">
           <%= image_tag photo.owner.avatar_image_url, class: "rounded-circle me-2 img-cover img-small" %>
 
-          <%= link_to photo.owner.username, user_path(photo.owner.username), class: "text-dark link-underline-dark link-underline-opacity-0 link-underline-opacity-100-hover" %>
+          <%= link_to photo.owner.username, user_path(photo.owner.username), class: "text-dark link-underline-dark link-underline-opacity-0 link-underline-opacity-100-hover", data: { turbo: false } %>
         </h2>
 
         <div>
-          <%= link_to edit_photo_path(photo), class: "btn btn-link btn-sm text-muted" do %>
+          <% if current_user == photo.owner %>
+            <%= link_to edit_photo_path(photo), class: "btn btn-link btn-sm text-muted" do %>
             <i class="fas fa-edit fa-fw"></i>
           <% end %>
 
           <%= button_to photo, method: :delete, class: "btn btn-link btn-sm text-muted", form_class: "d-inline-block" do %>
             <i class="fas fa-trash fa-fw"></i>
+          <% end %>
           <% end %>
         </div>
       </div>
@@ -33,7 +35,9 @@
           <%= render "comments/comment", comment: comment %>
         <% end %>
         
-        <%= render "comments/form", comment: photo.comments.build %>
+        <div class="card-body">
+          <%= render "comments/form", comment: photo.comments.build %>
+        </div>
       </ul>
     </div>
   </div>
